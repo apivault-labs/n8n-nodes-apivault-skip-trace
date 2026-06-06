@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-apivault-skip-trace",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "n8n community node for Skip Trace people & contact finder — look up US people by name, address, or phone and get full names, age, addresses, phone numbers, emails, relatives, aliases and a public profile link. Pay-as-you-go, no monthly fee.",
   "license": "MIT",
   "homepage": "https://apify.com/apivault_labs/skip-trace-people-finder",
