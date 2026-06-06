@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.3
+
+- Repository moved to the official `apivault-labs` GitHub org.
+
 ## 0.1.2
 
 - Fixed repository URL to point to the real GitHub repo.
