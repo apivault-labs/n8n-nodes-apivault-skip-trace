@@ -2,7 +2,7 @@
 
 An [n8n](https://n8n.io) community node for **Skip Trace** — find hard-to-locate people in the US by **name, address, or phone** and get back full names, age, current and previous addresses, phone numbers, emails, relatives, aliases, and a public profile link.
 
-Pay-as-you-go, no monthly subscription. The heavy lifting runs server-side on [Apify](https://apify.com); this node is a thin connector that you drive with your own Apify API token.
+Pay-as-you-go, no monthly subscription. The heavy lifting runs server-side on [Apify](https://www.apify.com?fpr=06e5d2); this node is a thin connector that you drive with your own Apify API token.
 
 > Built by **[apivault_labs](https://apify.com/apivault_labs)** — see [all our actors](https://apify.com/apivault_labs) (lead generation, e-commerce, profiles, AI image tools).
 
@@ -30,7 +30,7 @@ For self-hosted n8n you can also run `npm install n8n-nodes-apivault-skip-trace`
 
 This node uses an **Apify API token**:
 
-1. Create a free account at [apify.com](https://apify.com)
+1. Create a free account at [apify.com](https://www.apify.com?fpr=06e5d2)
 2. Go to **Apify Console → Settings → Integrations** and copy your **API token**
 3. In n8n, create new **Apify API** credentials and paste the token
 
@@ -70,7 +70,7 @@ You only pay for the people actually returned.
 
 - [Skip Trace actor on Apify](https://apify.com/apivault_labs/skip-trace-people-finder)
 - [All actors by apivault_labs](https://apify.com/apivault_labs) — lead-gen, e-commerce, profiles, AI image tools
-- [Create a free Apify account](https://apify.com)
+- [Create a free Apify account](https://www.apify.com?fpr=06e5d2)
 - [n8n community nodes docs](https://docs.n8n.io/integrations/community-nodes/)
 
 ## License
