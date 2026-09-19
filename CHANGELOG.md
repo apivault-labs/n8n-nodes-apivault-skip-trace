@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.5
+
+- Added a ready-to-import, review-first CRM workflow.
+- Simplified the public node to business and result controls.
+
 ## 0.1.3
 
 - Repository moved to the official `apivault-labs` GitHub org.
