@@ -1,0 +1,93 @@
+{
+  "id": "1f106103-6ffb-5e44-bae8-f3647b989b11",
+  "name": "Skip Trace → CRM-ready contact",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "a60e26c4-d796-5ac3-956a-d683748f0a54",
+      "name": "When clicking Execute workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Setup\nUse only where you have a lawful purpose and the right to process the data.\n1. Select your Apify API credential.\n2. Replace the sample with an authorized lookup.\n3. Review the result before sending it to your CRM.\n4. Respect opt-outs and applicable privacy and outreach rules.",
+        "height": 300,
+        "width": 460
+      },
+      "id": "d2a686a6-4cce-5dc8-bbf9-883ff9df858c",
+      "name": "How to use this workflow",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        -240
+      ]
+    },
+    {
+      "parameters": {
+        "searchBy": "name",
+        "query": "Jane Smith; Austin, TX",
+        "tier": "basic",
+        "maxResults": 5
+      },
+      "id": "7a3b5de6-84ae-5a51-87ed-e7f6b932187a",
+      "name": "Find authorized contact data with Apify",
+      "type": "n8n-nodes-apivault-skip-trace.skipTrace",
+      "typeVersion": 1,
+      "position": [
+        260,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const j = $json; const phones = j.phones ?? j.phoneNumbers ?? []; const emails = j.emails ?? []; return { json: { ...j, crmContact: { fullName: j.fullName ?? j.name ?? '', primaryPhone: Array.isArray(phones) ? (phones[0]?.number ?? phones[0] ?? '') : phones, primaryEmail: Array.isArray(emails) ? (emails[0]?.email ?? emails[0] ?? '') : emails, reviewStatus: 'manual_review_required' } } };"
+      },
+      "id": "8e04486c-4fee-59c0-be76-91437ef3e2da",
+      "name": "Prepare reviewed CRM contact",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        580,
+        120
+      ]
+    }
+  ],
+  "connections": {
+    "When clicking Execute workflow": {
+      "main": [
+        [
+          {
+            "node": "Find authorized contact data with Apify",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Find authorized contact data with Apify": {
+      "main": [
+        [
+          {
+            "node": "Prepare reviewed CRM contact",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "versionId": "c03d8c98-8f3e-53dc-a550-61791623c36a",
+  "tags": []
+}
