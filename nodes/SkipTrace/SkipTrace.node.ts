@@ -119,47 +119,6 @@ export class SkipTrace implements INodeType {
 				default: 5,
 				description: 'How many matched people to return per query',
 			},
-			{
-				displayName: 'Additional Options',
-				name: 'additionalOptions',
-				type: 'collection',
-				placeholder: 'Add Option',
-				default: {},
-				options: [
-					{
-						displayName: 'Use Residential Proxy Fallback',
-						name: 'useResidential',
-						type: 'boolean',
-						default: true,
-						description:
-							'Whether to fall back to residential IPs when the source blocks datacenter IPs (recommended; costs a fraction of a cent per run)',
-					},
-					{
-						displayName: 'Max Parallel Lookups',
-						name: 'maxConcurrency',
-						type: 'number',
-						typeOptions: { minValue: 1, maxValue: 8 },
-						default: 4,
-						description: 'How many lookups to run in parallel',
-					},
-					{
-						displayName: 'Retries on Failure',
-						name: 'maxRetries',
-						type: 'number',
-						typeOptions: { minValue: 0, maxValue: 3 },
-						default: 2,
-						description: 'Retry attempts when the source returns a transient anti-bot response',
-					},
-					{
-						displayName: 'Timeout per Request (Seconds)',
-						name: 'timeout',
-						type: 'number',
-						typeOptions: { minValue: 10, maxValue: 45 },
-						default: 25,
-						description: 'Max wait per page fetch',
-					},
-				],
-			},
 		],
 	};
 
@@ -173,21 +132,10 @@ export class SkipTrace implements INodeType {
 				const query = this.getNodeParameter('query', i) as string;
 				const tier = this.getNodeParameter('tier', i) as string;
 				const maxResults = this.getNodeParameter('maxResults', i) as number;
-				const extra = this.getNodeParameter('additionalOptions', i, {}) as {
-					useResidential?: boolean;
-					maxConcurrency?: number;
-					maxRetries?: number;
-					timeout?: number;
-				};
-
 				// Map the chosen search field to the actor's input arrays.
 				const body: Record<string, unknown> = {
 					tier,
 					max_results: maxResults,
-					useResidential: extra.useResidential ?? true,
-					maxConcurrency: extra.maxConcurrency ?? 4,
-					maxRetries: extra.maxRetries ?? 2,
-					timeout: extra.timeout ?? 25,
 				};
 				if (searchBy === 'name') body.name = [query];
 				else if (searchBy === 'address') body.street_citystatezip = [query];
