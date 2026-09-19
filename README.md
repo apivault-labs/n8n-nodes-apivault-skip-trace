@@ -77,6 +77,13 @@ You only pay for the people actually returned.
 
 [MIT](LICENSE)
 
+## Ready-to-import workflow
+
+The package includes `examples/quickstart-workflow.json`: an authorized lookup
+followed by a manual-review CRM row. Import it into n8n, select your Apify credential
+and replace the sample query. Use it only where you have a lawful purpose and the
+right to process the data, and honor applicable privacy and outreach rules.
+
 ## Keywords
 
 `skip-trace` `skip-tracing` `people-search` `people-finder` `reverse-phone-lookup` `address-lookup` `contact-finder` `lead-generation` `b2b-data` `real-estate-leads` `debt-collection` `n8n` `apify`
