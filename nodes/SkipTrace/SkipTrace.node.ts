@@ -20,7 +20,7 @@ export class SkipTrace implements INodeType {
 		version: 1,
 		subtitle: '={{$parameter["searchBy"]}}',
 		description:
-			'Look up US people by name, address, or phone. Returns names, age, addresses, phones, emails, relatives, aliases and a public profile link.',
+			'Run authorized US public-record lookups by name, address, phone, or email and return review-ready results.',
 		defaults: {
 			name: 'Skip Trace',
 		},
@@ -58,6 +58,12 @@ export class SkipTrace implements INodeType {
 						description: 'Reverse-lookup a US phone number',
 						action: 'Search by phone',
 					},
+					{
+						name: 'Email',
+						value: 'email',
+						description: 'Reverse-lookup an email address you are authorized to process',
+						action: 'Search by email',
+					},
 				],
 				default: 'name',
 			},
@@ -67,7 +73,7 @@ export class SkipTrace implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				placeholder: 'Amalia Castillo; Dallas, TX 75228',
+				placeholder: 'Jane Example; Springfield, IL',
 				description:
 					'Full name to look up. Optionally add a location after a semicolon to narrow results.',
 				displayOptions: { show: { searchBy: ['name'] } },
@@ -78,7 +84,7 @@ export class SkipTrace implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				placeholder: '2551 Pinebluff Dr; Dallas, TX 75228',
+				placeholder: '123 Example Ave; Springfield, IL 62704',
 				description: 'Street address with city, state, ZIP. Finds people associated with it.',
 				displayOptions: { show: { searchBy: ['address'] } },
 			},
@@ -88,36 +94,57 @@ export class SkipTrace implements INodeType {
 				type: 'string',
 				default: '',
 				required: true,
-				placeholder: '(214) 321-5304',
+				placeholder: '(202) 555-0182',
 				description: 'US phone number to reverse-lookup',
 				displayOptions: { show: { searchBy: ['phone'] } },
 			},
 			{
-				displayName: 'Tier',
-				name: 'tier',
+				displayName: 'Email',
+				name: 'query',
+				type: 'string',
+				default: '',
+				required: true,
+				placeholder: 'jane@example.com',
+				description: 'Email address to reverse-lookup',
+				displayOptions: { show: { searchBy: ['email'] } },
+			},
+			{
+				displayName: 'Output Preset',
+				name: 'outputPreset',
 				type: 'options',
 				options: [
 					{
-						name: 'Basic ($7/1K)',
-						value: 'basic',
-						description: 'Name, age, current address, phones, profile link',
+						name: 'Contacts (Recommended)',
+						value: 'contacts',
+						description: 'Compact fields for AI, CRM, and manual review',
 					},
 					{
-						name: 'Premium ($15/1K)',
-						value: 'premium',
-						description:
-							'Deep profile: phone line types, full address history, emails, relatives, aliases, work/education hints, net-worth estimate',
+						name: 'Flat Spreadsheet',
+						value: 'flat',
+						description: 'Spreadsheet-friendly values',
+					},
+					{
+						name: 'Full',
+						value: 'full',
+						description: 'Complete public result when available',
 					},
 				],
-				default: 'basic',
+				default: 'contacts',
 			},
 			{
 				displayName: 'Max Results',
 				name: 'maxResults',
 				type: 'number',
-				typeOptions: { minValue: 1, maxValue: 20 },
-				default: 5,
+				typeOptions: { minValue: 1, maxValue: 1000 },
+				default: 3,
 				description: 'How many matched people to return per query',
+			},
+			{
+				displayName: 'Verify Email Deliverability',
+				name: 'verifyEmails',
+				type: 'boolean',
+				default: true,
+				description: 'Whether to add an email-domain deliverability signal when email data is available',
 			},
 		],
 	};
@@ -130,16 +157,21 @@ export class SkipTrace implements INodeType {
 			try {
 				const searchBy = this.getNodeParameter('searchBy', i) as string;
 				const query = this.getNodeParameter('query', i) as string;
-				const tier = this.getNodeParameter('tier', i) as string;
+				const outputPreset = this.getNodeParameter('outputPreset', i) as string;
 				const maxResults = this.getNodeParameter('maxResults', i) as number;
+				const verifyEmails = this.getNodeParameter('verifyEmails', i) as boolean;
 				// Map the chosen search field to the actor's input arrays.
 				const body: Record<string, unknown> = {
-					tier,
+					workflow: searchBy,
 					max_results: maxResults,
+					outputPreset,
+					verifyEmails,
+					useDemoOnEmpty: false,
 				};
 				if (searchBy === 'name') body.name = [query];
 				else if (searchBy === 'address') body.street_citystatezip = [query];
 				else if (searchBy === 'phone') body.phone_number = [query];
+				else if (searchBy === 'email') body.email = [query];
 
 				const options: IRequestOptions = {
 					method: 'POST' as IHttpRequestMethods,

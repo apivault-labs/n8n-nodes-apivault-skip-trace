@@ -31,9 +31,10 @@
     {
       "parameters": {
         "searchBy": "name",
-        "query": "Jane Smith; Austin, TX",
-        "tier": "basic",
-        "maxResults": 5
+        "query": "Jane Example; Springfield, IL",
+        "outputPreset": "contacts",
+        "maxResults": 3,
+        "verifyEmails": true
       },
       "id": "7a3b5de6-84ae-5a51-87ed-e7f6b932187a",
       "name": "Find authorized contact data with Apify",

@@ -1,89 +1,56 @@
-# n8n-nodes-apivault-skip-trace
+# Skip Trace for n8n
 
-An [n8n](https://n8n.io) community node for **Skip Trace** — find hard-to-locate people in the US by **name, address, or phone** and get back full names, age, current and previous addresses, phone numbers, emails, relatives, aliases, and a public profile link.
+An n8n community node for authorized name, address, phone and email lookups through the hosted [Skip Trace Actor](https://apify.com/apivault_labs/skip-trace-people-finder).
 
-Pay-as-you-go, no monthly subscription. The heavy lifting runs server-side on [Apify](https://www.apify.com?fpr=06e5d2); this node is a thin connector that you drive with your own Apify API token.
+> **Lawful use only.** This is not a consumer-reporting service. Do not use the data for credit, employment, housing, insurance, tenant screening or other FCRA-regulated decisions. Verify important information independently.
 
-> Built by **[apivault_labs](https://apify.com/apivault_labs)** — see [all our actors](https://apify.com/apivault_labs) (lead generation, e-commerce, profiles, AI image tools).
+## Install
 
-> **Lawful B2B use only.** Do not use this data for decisions covered by the FCRA (credit, employment, insurance, housing, or tenant screening).
+In n8n, open **Settings → Community Nodes**, choose **Install**, and enter:
 
-## What you can do
+```text
+n8n-nodes-apivault-skip-trace
+```
 
-- **Search by name** — optionally narrow by location (`Amalia Castillo; Dallas, TX 75228`)
-- **Search by address** — find people associated with a street address
-- **Reverse phone lookup** — identify the owner of a US phone number
-- Two tiers: **Basic** (core contact data) and **Premium** (deep profile: line types, full address history, emails, relatives, aliases, net-worth estimate)
+Create an Apify API credential in n8n and select it in the node.
 
-## Installation
+## Supported workflows
 
-In your n8n instance:
+- search by name and optional location;
+- find people associated with an address;
+- reverse phone lookup;
+- reverse email lookup;
+- compact Contacts output for review queues;
+- Flat spreadsheet output;
+- Full public result when available.
 
-1. Go to **Settings → Community Nodes**
-2. Select **Install**
-3. Enter `n8n-nodes-apivault-skip-trace`
-4. Confirm and install
-
-For self-hosted n8n you can also run `npm install n8n-nodes-apivault-skip-trace` in your n8n custom-nodes folder.
-
-## Credentials
-
-This node uses an **Apify API token**:
-
-1. Create a free account at [apify.com](https://www.apify.com?fpr=06e5d2)
-2. Go to **Apify Console → Settings → Integrations** and copy your **API token**
-3. In n8n, create new **Apify API** credentials and paste the token
-
-A free Apify account includes monthly usage credits, so you can try it without a card.
+Start with 1–3 results and review matches before increasing the limit.
 
 ## Pricing
 
-Billed per result through Apify (pay-per-event):
+- **$6.50 per 1,000 delivered matched-person records**;
+- unmatched queries have no result charge;
+- the small Actor Start charge and Apify platform usage may still apply;
+- this package adds no subscription fee.
 
-| Tier | Price | Returns |
-|------|-------|---------|
-| Basic | **$7 / 1,000** | name, age, current address, phones, profile link |
-| Premium | **$15 / 1,000** | everything in Basic + phone line types, full address history, emails, relatives, aliases, work/education hints, net-worth estimate |
+## Ready-to-import workflow
 
-You only pay for the people actually returned.
+Import [`examples/quickstart-workflow.json`](examples/quickstart-workflow.json). It uses fictional sample data, requests compact Contacts output, and prepares each successful row for manual review before CRM import.
 
-## Example output (Basic)
+Replace the sample only with information you are authorized to process. A confidence score prioritizes review; it must not make an eligibility or identity decision automatically.
 
-```json
-{
-  "name": "James E Whitsitt",
-  "age": 58,
-  "currentAddress": "2551 Pinebluff Dr, Dallas, TX 75228",
-  "phones": ["(214) 321-5304"],
-  "profileUrl": "https://radaris.com/p/James/Whitsitt/..."
-}
-```
+Read the complete [review-first contact-enrichment playbook](https://github.com/apivault-labs/skip-trace-people-finder-python/blob/main/guides/review-first-contact-enrichment.md).
 
-## Use cases
+## What the package contains
 
-- **Real-estate / investor outreach** — turn a property address into owner contacts
-- **Debt collection & skip tracing** — relocate people who moved
-- **B2B lead enrichment** — append phone/email to a name in your CRM
-- **Fraud / identity checks** — confirm a phone number maps to a real person
+The node starts the hosted Actor and returns its structured Dataset rows. It does not contain data-collection implementation, private sources, credentials or infrastructure configuration.
 
 ## Resources
 
-- [Skip Trace actor on Apify](https://apify.com/apivault_labs/skip-trace-people-finder)
-- [All actors by apivault_labs](https://apify.com/apivault_labs) — lead-gen, e-commerce, profiles, AI image tools
-- [Create a free Apify account](https://www.apify.com?fpr=06e5d2)
-- [n8n community nodes docs](https://docs.n8n.io/integrations/community-nodes/)
+- [Skip Trace on Apify](https://apify.com/apivault_labs/skip-trace-people-finder)
+- [Python SDK and use case](https://github.com/apivault-labs/skip-trace-people-finder-python)
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
 
 ## License
 
 [MIT](LICENSE)
-
-## Ready-to-import workflow
-
-The package includes `examples/quickstart-workflow.json`: an authorized lookup
-followed by a manual-review CRM row. Import it into n8n, select your Apify credential
-and replace the sample query. Use it only where you have a lawful purpose and the
-right to process the data, and honor applicable privacy and outreach rules.
-
-## Keywords
-
-`skip-trace` `skip-tracing` `people-search` `people-finder` `reverse-phone-lookup` `address-lookup` `contact-finder` `lead-generation` `b2b-data` `real-estate-leads` `debt-collection` `n8n` `apify`

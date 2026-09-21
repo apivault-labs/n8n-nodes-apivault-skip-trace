@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0
+
+- Added reverse-email lookup and Contacts, Flat, and Full output presets.
+- Added the email-deliverability control and increased the supported result limit.
+- Updated pricing and lawful-use guidance for the current Actor contract.
+- Removed the retired Basic/Premium selector.
+
 ## 0.1.5
 
 - Added a ready-to-import, review-first CRM workflow.
